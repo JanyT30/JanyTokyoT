@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jany Tokyo Traveller</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',sans-serif;background:#fafafa;color:#1a1a1a}
+  :root{--red:#c0392b;--border:#e5e5e5;--muted:#666;--bg:#f4f4f4}
+
+  nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 2rem}
+  .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-mark{width:36px;height:36px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+  .logo-text{font-size:17px;font-weight:600;letter-spacing:0.5px}
+  .logo-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .cart-btn{background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
+  .cart-count{background:#fff;color:var(--red);border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+  .hero{background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);color:#fff;padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:300px;height:300px;border:60px solid rgba(192,57,43,0.15);border-radius:50%}
+  .hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:250px;height:250px;border:50px solid rgba(192,57,43,0.1);border-radius:50%}
+  .hero-tag{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--red);margin-bottom:1rem}
+  .hero h1{font-size:3rem;font-weight:700;letter-spacing:-1px;margin-bottom:0.5rem}
+  .hero h1 span{color:var(--red)}
+  .hero p{color:#aaa;font-size:1rem;margin-top:0.75rem}
+  .jp-chars{font-size:2rem;opacity:0.15;position:absolute;top:1rem;left:2rem;letter-spacing:4px}
+
+  .filters{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem}
+  .filters-inner{max-width:1200px;margin:0 auto;display:flex;gap:8px;padding:1rem 0;overflow-x:auto;scrollbar-width:none}
+  .filter-btn{border:1px solid var(--border);background:#fff;padding:6px 16px;border-radius:20px;font-size:13px;cursor:pointer;white-space:nowrap;transition:all .2s;color:#333}
+  .filter-btn.active,.filter-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
+
+  .section{max-width:1200px;margin:0 auto;padding:2rem}
+  .section-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
+  .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+  .card-img{width:100%;height:200px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:4rem;overflow:hidden}
+  .card-img img{width:100%;height:100%;object-fit:cover}
+  .card-body{padding:1rem}
+  .card-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:4px}
+  .card-name{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.4}
+  .card-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .price{font-size:16px;font-weight:700;color:#1a1a1a}
+  .price span{font-size:11px;color:var(--muted);font-weight:400}
+  .interest-btn{background:transparent;border:1px solid var(--red);color:var(--red);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap}
+  .interest-btn:hover,.interest-btn.selected{background:var(--red);color:#fff}
+
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
+  .modal-overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:500px;padding:2rem;max-height:90vh;overflow-y:auto;position:relative}
+  .modal h2{font-size:18px;font-weight:600;margin-bottom:4px}
+  .modal p{font-size:13px;color:var(--muted);margin-bottom:1.5rem}
+  .selected-list{margin-bottom:1.5rem}
+  .selected-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;gap:8px}
+  .selected-item span{flex:1;line-height:1.4}
+  .remove-btn{background:none;border:none;color:var(--red);cursor:pointer;font-size:16px;padding:0 4px;flex-shrink:0}
+  .form-group{margin-bottom:1rem}
+  .form-group label{display:block;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+  .form-group input{width:100%;border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:14px;outline:none;transition:border .2s}
+  .form-group input:focus{border-color:var(--red)}
+  .send-btn{width:100%;background:var(--red);color:#fff;border:none;padding:14px;border-radius:8px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px}
+  .send-btn:hover{background:#a93226}
+  .empty-msg{text-align:center;color:var(--muted);font-size:13px;padding:1rem 0}
+  .close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
+  .no-results{text-align:center;padding:3rem;color:var(--muted);font-size:14px;grid-column:1/-1}
+
+  /* Badge de versiones */
+  .versions{margin-bottom:10px}
+  .ver-tag{display:inline-block;font-size:10px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;margin:2px 2px 2px 0;color:#555;line-height:1.4}
+
+  footer{background:#1a1a1a;color:#aaa;text-align:center;padding:2rem;font-size:13px;margin-top:3rem}
+  footer strong{color:#fff}
+  .whatsapp-float{position:fixed;bottom:24px;right:24px;background:#25d366;color:#fff;border:none;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:150;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">
+      <div class="logo-mark">JT</div>
+      <div>
+        <div class="logo-text">Jany Tokyo Traveller</div>
+        <div class="logo-sub">Productos japoneses auténticos</div>
+      </div>
+    </div>
+    <button class="cart-btn" onclick="openModal()">
+      Mis intereses <span class="cart-count" id="cart-count">0</span>
+    </button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="jp-chars">東京 日本</div>
+  <div class="hero-tag">Directo desde Japón</div>
+  <h1>Jany <span>Tokyo</span><br>Traveller</h1>
+  <p>Figuras · Papelería · Moda · Discos · Blu-Ray · Libros · Accesorios</p>
+</div>
+
+<div class="filters">
+  <div class="filters-inner">
+    <button class="filter-btn active" onclick="filter('all',this)">Todo</button>
+    <button class="filter-btn" onclick="filter('Blu-Ray / DVD',this)">Blu-Ray / DVD</button>
+    <button class="filter-btn" onclick="filter('Libros / Revistas',this)">Libros / Revistas</button>
+    <button class="filter-btn" onclick="filter('Figuras',this)">Figuras</button>
+    <button class="filter-btn" onclick="filter('Papelería',this)">Papelería</button>
+    <button class="filter-btn" onclick="filter('Moda',this)">Moda</button>
+    <button class="filter-btn" onclick="filter('Discos',this)">Discos</button>
+    <button class="filter-btn" onclick="filter('Accesorios',this)">Accesorios</button>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Catálogo de productos</div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="closeOnBg(event)">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal()">✕</button>
+    <h2>Productos de tu interés</h2>
+    <p>Déjanos tu nombre y número y te contactamos por WhatsApp</p>
+    <div class="selected-list" id="selected-list"></div>
+    <div class="form-group">
+      <label>Tu nombre</label>
+      <input type="text" id="inp-name" placeholder="Ej. María García">
+    </div>
+    <div class="form-group">
+      <label>Tu número de celular</label>
+      <input type="tel" id="inp-phone" placeholder="Ej. 55 1234 5678">
+    </div>
+    <button class="send-btn" onclick="sendWhatsApp()">Enviar por WhatsApp</button>
+  </div>
+</div>
+
+<button class="whatsapp-float" onclick="openModal()" title="Ver mis intereses">💬</button>
+
+<footer>
+  <strong>Jany Tokyo Traveller</strong><br>
+  Productos japoneses auténticos traídos directamente de Japón<br>
+  Envío internacional a México con descuento incluido<br><br>
+  Contáctanos: <strong>56 3761 9354</strong>
+</footer>
+
+<script>
+const PRODUCTS = [
+  // ── BLU-RAY / DVD (Ado) ──
+  {id:1,name:'Hibana — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,500',img:'https://i.imgur.com/YsmBAbp.jpeg',
+   desc:'Envío internacional a México con descuento incluido.',
+   versions:['Sin bonus','Con bonus soporte de vaso','Con bonus llavero de acrílico']},
+  {id:2,name:'Hibana — Edición Regular [DVD/Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,249',img:'https://i.imgur.com/O34HK6k.jpeg',
+   desc:'Saitama Super Arena / Orlando. Envío internacional incluido.',
+   versions:['Sin bonus','Con bonus']},
+  {id:3,name:'Shinzou — Edición Limitada 1ra Edición + Bonus [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$920',img:'https://i.imgur.com/ETf2rt8.jpeg',
+   desc:'Primera edición con bonus. Envío internacional incluido.',
+   versions:['Con bonus']},
+  {id:4,name:'Shinzou — Edición Estándar [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$650',img:'https://i.imgur.com/0UCXTN7.jpeg',
+   desc:'Edición estándar con bonus. Envío internacional incluido.',
+   versions:['Con bonus']},
+  {id:5,name:'Perfil de la Mona Lisa — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,499',img:'https://i.imgur.com/tLJf1zp.jpeg',
+   desc:'Edición limitada. Envío internacional incluido.',
+   versions:['Sin bonus','Con bonus']},
+  {id:6,name:'Perfil de la Mona Lisa — Edición Regular [DVD]',cat:'Blu-Ray / DVD',price:'$999',img:'https://i.imgur.com/o7c6gJx.jpeg',
+   desc:'Edición regular en DVD. Envío internacional incluido.',
+   versions:['Sin bonus','Con bonus']},
+  {id:7,name:'Marte — Edición Limitada 1ra Edición [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,199',img:'https://i.imgur.com/rbt8d9t.jpeg',
+   desc:'Primera edición limitada en Blu-Ray. Envío internacional incluido.',
+   versions:[]},
+  {id:8,name:'Marte — Edición Limitada 1ra Edición [DVD]',cat:'Blu-Ray / DVD',price:'$799',img:'https://i.imgur.com/dcWpEhu.jpeg',
+   desc:'Primera edición limitada en DVD. Envío internacional incluido.',
+   versions:[]},
+
+  // ── LIBROS / REVISTAS (Ado) ──
+  {id:9,name:'Vivarium Ado y Yo [Novela]',cat:'Libros / Revistas',price:'$399',emoji:'📖',
+   desc:'Novela en idioma japonés. Envío internacional incluido.',versions:[]},
+  {id:10,name:'Musica (ムジカ) — Edición Marzo 2026 [Revista]',cat:'Libros / Revistas',price:'$249',emoji:'📰',
+   desc:'Revista japonesa edición marzo 2026. Idioma JP.',versions:[]},
+  {id:11,name:'アドロイド — Vidas Pasadas Ado [Novela]',cat:'Libros / Revistas',price:'$359',emoji:'📖',
+   desc:'Novela en idioma japonés. Envío internacional incluido.',versions:[]},
+  {id:12,name:'Rocking on Japan — Edición Enero 2026 [Revista]',cat:'Libros / Revistas',price:'$429',emoji:'📰',
+   desc:'Revista japonesa edición enero 2026. Idioma JP.',versions:[]},
+  {id:13,name:'Rocking on Japan — Edición Julio 2024 [Revista]',cat:'Libros / Revistas',price:'$319',emoji:'📰',
+   desc:'Revista japonesa edición julio 2024. Idioma JP.',versions:[]},
+  {id:14,name:'Música (ムジカ) — Edición Abril 2025 [Revista]',cat:'Libros / Revistas',price:'$899',emoji:'📰',
+   desc:'Revista japonesa edición abril 2025. Idioma JP.',versions:[]},
+
+  // ── OTROS (ejemplos) ──
+  {id:15,name:'Figura Demon Slayer — Tanjiro',cat:'Figuras',price:'$650',emoji:'🗡️',desc:'Figura coleccionable 18cm edición especial.',versions:[]},
+  {id:16,name:'Set de papelería Sanrio',cat:'Papelería',price:'$320',emoji:'🎀',desc:'Cuadernos, plumas y stickers Hello Kitty originales.',versions:[]},
+  {id:17,name:'Camiseta Harajuku Vol.1',cat:'Moda',price:'$580',emoji:'👕',desc:'Algodón 100%, diseño exclusivo Harajuku, tallas S-XL.',versions:[]},
+  {id:18,name:'BTS — Map of the Soul LP',cat:'Discos',price:'$550',emoji:'🎵',desc:'Vinilo 12" edición japonesa, incluye poster.',versions:[]},
+  {id:19,name:'Clip para cabello Kitsune',cat:'Accesorios',price:'$150',emoji:'🦊',desc:'Accesorio kawaii en forma de zorro, hecho en Japón.',versions:[]},
+];
+
+let selected={}, currentFilter='all';
+
+function renderGrid(){
+  const g=document.getElementById('grid');
+  const items=currentFilter==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===currentFilter);
+  if(!items.length){g.innerHTML='<div class="no-results">No hay productos en esta categoría</div>';return}
+  g.innerHTML=items.map(p=>`
+    <div class="card">
+      <div class="card-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`:(p.emoji||'📦')}</div>
+      <div class="card-body">
+        <div class="card-cat">${p.cat}</div>
+        <div class="card-name">${p.name}</div>
+        ${p.versions&&p.versions.length?`<div class="versions">${p.versions.map(v=>`<span class="ver-tag">${v}</span>`).join('')}</div>`:''}
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-footer">
+          <div class="price">${p.price} <span>MXN</span></div>
+          <button class="interest-btn ${selected[p.id]?'selected':''}" onclick="toggleInterest(${p.id})">
+            ${selected[p.id]?'✓ Agregado':'Me interesa'}
+          </button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleInterest(id){
+  if(selected[id]) delete selected[id];
+  else selected[id]=PRODUCTS.find(p=>p.id===id);
+  updateCount();renderGrid();
+}
+function updateCount(){document.getElementById('cart-count').textContent=Object.keys(selected).length}
+function filter(cat,btn){
+  currentFilter=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');renderGrid();
+}
+function openModal(){
+  const items=Object.values(selected);
+  const list=document.getElementById('selected-list');
+  list.innerHTML=items.length
+    ?items.map(p=>`<div class="selected-item"><span>${p.emoji} ${p.name} — ${p.price} MXN</span><button class="remove-btn" onclick="removeItem(${p.id})">✕</button></div>`).join('')
+    :'<div class="empty-msg">No has seleccionado ningún producto aún.</div>';
+  document.getElementById('modal').classList.add('open');
+}
+function removeItem(id){delete selected[id];updateCount();openModal();}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function closeOnBg(e){if(e.target===document.getElementById('modal'))closeModal()}
+function sendWhatsApp(){
+  const name=document.getElementById('inp-name').value.trim();
+  const phone=document.getElementById('inp-phone').value.trim();
+  const items=Object.values(selected);
+  if(!name){alert('Por favor ingresa tu nombre');return}
+  if(!phone){alert('Por favor ingresa tu número de celular');return}
+  if(!items.length){alert('No has seleccionado ningún producto');return}
+  const lista=items.map(p=>`• ${p.name} (${p.price} MXN)`).join('\n');
+  const msg=`Hola! 👋 Soy *${name}* y me interesan los siguientes productos de *Jany Tokyo Traveller*:\n\n${lista}\n\nMi número de contacto es: ${phone}`;
+  window.open(`https://wa.me/5637619354?text=${encodeURIComponent(msg)}`,'_blank');
+}
+renderGrid();
+</script>
+</body>
+</html>
