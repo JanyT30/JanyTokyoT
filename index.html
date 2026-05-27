@@ -43,14 +43,33 @@
   .card-img img{width:100%;height:100%;object-fit:cover}
   .card-body{padding:1rem}
   .card-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:4px}
-  .card-name{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.4}
-  .card-desc{font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.5}
+  .card-name{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4}
+  .card-desc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5}
+  .versions{margin-bottom:8px}
+  .ver-tag{display:inline-block;font-size:10px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;margin:2px 2px 2px 0;color:#555;line-height:1.4}
+
+  /* Envío badge */
+  .shipping-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#1a6fb5;background:#e8f2fb;border:1px solid #b3d4f0;border-radius:4px;padding:3px 8px;margin-bottom:10px;cursor:pointer;transition:background .2s}
+  .shipping-badge:hover{background:#d0e8f7}
+
   .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
   .price{font-size:16px;font-weight:700;color:#1a1a1a}
   .price span{font-size:11px;color:var(--muted);font-weight:400}
+  .price-note{font-size:10px;color:#888;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:8px;cursor:pointer}
+  .price-note:hover{background:#eaeaea}
   .interest-btn{background:transparent;border:1px solid var(--red);color:var(--red);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap}
   .interest-btn:hover,.interest-btn.selected{background:var(--red);color:#fff}
 
+  /* Tooltip de envío */
+  .tooltip-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;align-items:center;justify-content:center}
+  .tooltip-overlay.open{display:flex}
+  .tooltip-box{background:#fff;border-radius:12px;padding:2rem;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
+  .tooltip-box .icon{font-size:2.5rem;margin-bottom:1rem}
+  .tooltip-box h3{font-size:16px;font-weight:700;margin-bottom:0.75rem;color:#1a1a1a}
+  .tooltip-box p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem}
+  .tooltip-close{background:var(--red);color:#fff;border:none;padding:8px 24px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
+
+  /* Modal interés */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
   .modal-overlay.open{display:flex}
   .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:500px;padding:2rem;max-height:90vh;overflow-y:auto;position:relative}
@@ -69,10 +88,6 @@
   .empty-msg{text-align:center;color:var(--muted);font-size:13px;padding:1rem 0}
   .close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
   .no-results{text-align:center;padding:3rem;color:var(--muted);font-size:14px;grid-column:1/-1}
-
-  /* Badge de versiones */
-  .versions{margin-bottom:10px}
-  .ver-tag{display:inline-block;font-size:10px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;margin:2px 2px 2px 0;color:#555;line-height:1.4}
 
   footer{background:#1a1a1a;color:#aaa;text-align:center;padding:2rem;font-size:13px;margin-top:3rem}
   footer strong{color:#fff}
@@ -108,8 +123,8 @@
     <button class="filter-btn active" onclick="filter('all',this)">Todo</button>
     <button class="filter-btn" onclick="filter('Blu-Ray / DVD',this)">Blu-Ray / DVD</button>
     <button class="filter-btn" onclick="filter('Libros / Revistas',this)">Libros / Revistas</button>
+    <button class="filter-btn" onclick="filter('Merch / Figuras',this)">Merch / Figuras</button>
     <button class="filter-btn" onclick="filter('Figuras',this)">Figuras</button>
-    <button class="filter-btn" onclick="filter('Papelería',this)">Papelería</button>
     <button class="filter-btn" onclick="filter('Moda',this)">Moda</button>
     <button class="filter-btn" onclick="filter('Discos',this)">Discos</button>
     <button class="filter-btn" onclick="filter('Accesorios',this)">Accesorios</button>
@@ -121,6 +136,27 @@
   <div class="grid" id="grid"></div>
 </div>
 
+<!-- Tooltip precio -->
+<div class="tooltip-overlay" id="price-tooltip" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="tooltip-box">
+    <div class="icon">💰</div>
+    <h3>Precio aproximado</h3>
+    <p>El precio mostrado es aproximado y puede variar dependiendo de la disponibilidad y demanda del producto. El precio final se dará a conocer una vez que se verifique la disponibilidad de tu producto solicitado.</p>
+    <button class="tooltip-close" onclick="document.getElementById('price-tooltip').classList.remove('open')">Entendido</button>
+  </div>
+</div>
+
+<!-- Tooltip envío -->
+<div class="tooltip-overlay" id="shipping-tooltip" onclick="closeTooltip(event)">
+  <div class="tooltip-box">
+    <div class="icon">✈️</div>
+    <h3>Envío Internacional a México</h3>
+    <p>El costo y los detalles del envío internacional se darán a conocer una vez que tu producto solicitado comience su camino hacia México. Te contactaremos directamente con toda la información.</p>
+    <button class="tooltip-close" onclick="document.getElementById('shipping-tooltip').classList.remove('open')">Entendido</button>
+  </div>
+</div>
+
+<!-- Modal interés -->
 <div class="modal-overlay" id="modal" onclick="closeOnBg(event)">
   <div class="modal">
     <button class="close-btn" onclick="closeModal()">✕</button>
@@ -143,59 +179,57 @@
 
 <footer>
   <strong>Jany Tokyo Traveller</strong><br>
-  Productos japoneses auténticos traídos directamente de Japón<br>
-  Envío internacional a México con descuento incluido<br><br>
+  Productos japoneses auténticos traídos directamente de Japón<br><br>
   Contáctanos: <strong>56 3761 9354</strong>
 </footer>
 
 <script>
 const PRODUCTS = [
-  // ── BLU-RAY / DVD (Ado) ──
   {id:1,name:'Hibana — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,500',img:'https://i.imgur.com/YsmBAbp.jpeg',
-   desc:'Envío internacional a México con descuento incluido.',
-   versions:['Sin bonus','Con bonus soporte de vaso','Con bonus llavero de acrílico']},
+   desc:'Concierto Ado. Edición limitada.',versions:['Sin bonus','Con bonus soporte de vaso','Con bonus llavero de acrílico']},
   {id:2,name:'Hibana — Edición Regular [DVD/Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,249',img:'https://i.imgur.com/O34HK6k.jpeg',
-   desc:'Saitama Super Arena / Orlando. Envío internacional incluido.',
-   versions:['Sin bonus','Con bonus']},
+   desc:'Saitama Super Arena / Orlando.',versions:['Sin bonus','Con bonus']},
   {id:3,name:'Shinzou — Edición Limitada 1ra Edición + Bonus [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$920',img:'https://i.imgur.com/ETf2rt8.jpeg',
-   desc:'Primera edición con bonus. Envío internacional incluido.',
-   versions:['Con bonus']},
+   desc:'Primera edición con bonus.',versions:['Con bonus']},
   {id:4,name:'Shinzou — Edición Estándar [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$650',img:'https://i.imgur.com/0UCXTN7.jpeg',
-   desc:'Edición estándar con bonus. Envío internacional incluido.',
-   versions:['Con bonus']},
+   desc:'Edición estándar con bonus.',versions:['Con bonus']},
   {id:5,name:'Perfil de la Mona Lisa — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,499',img:'https://i.imgur.com/tLJf1zp.jpeg',
-   desc:'Edición limitada. Envío internacional incluido.',
-   versions:['Sin bonus','Con bonus']},
+   desc:'Edición limitada.',versions:['Sin bonus','Con bonus']},
   {id:6,name:'Perfil de la Mona Lisa — Edición Regular [DVD]',cat:'Blu-Ray / DVD',price:'$999',img:'https://i.imgur.com/o7c6gJx.jpeg',
-   desc:'Edición regular en DVD. Envío internacional incluido.',
-   versions:['Sin bonus','Con bonus']},
+   desc:'Edición regular en DVD.',versions:['Sin bonus','Con bonus']},
   {id:7,name:'Marte — Edición Limitada 1ra Edición [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,199',img:'https://i.imgur.com/rbt8d9t.jpeg',
-   desc:'Primera edición limitada en Blu-Ray. Envío internacional incluido.',
-   versions:[]},
+   desc:'Primera edición limitada en Blu-Ray.',versions:[]},
   {id:8,name:'Marte — Edición Limitada 1ra Edición [DVD]',cat:'Blu-Ray / DVD',price:'$799',img:'https://i.imgur.com/dcWpEhu.jpeg',
-   desc:'Primera edición limitada en DVD. Envío internacional incluido.',
-   versions:[]},
-
-  // ── LIBROS / REVISTAS (Ado) ──
-  {id:9,name:'Vivarium Ado y Yo [Novela]',cat:'Libros / Revistas',price:'$399',emoji:'📖',
-   desc:'Novela en idioma japonés. Envío internacional incluido.',versions:[]},
-  {id:10,name:'Musica (ムジカ) — Edición Marzo 2026 [Revista]',cat:'Libros / Revistas',price:'$249',emoji:'📰',
+   desc:'Primera edición limitada en DVD.',versions:[]},
+  {id:9,name:'Vivarium Ado y Yo [Novela]',cat:'Libros / Revistas',price:'$399',img:'https://i.imgur.com/E7fM4hl.jpeg',
+   desc:'Novela en idioma japonés.',versions:[]},
+  {id:10,name:'Musica (ムジカ) — Edición Marzo 2026 [Revista]',cat:'Libros / Revistas',price:'$249',img:'https://i.imgur.com/5PDwZmg.jpeg',
    desc:'Revista japonesa edición marzo 2026. Idioma JP.',versions:[]},
-  {id:11,name:'アドロイド — Vidas Pasadas Ado [Novela]',cat:'Libros / Revistas',price:'$359',emoji:'📖',
-   desc:'Novela en idioma japonés. Envío internacional incluido.',versions:[]},
-  {id:12,name:'Rocking on Japan — Edición Enero 2026 [Revista]',cat:'Libros / Revistas',price:'$429',emoji:'📰',
+  {id:11,name:'アドロイド — Vidas Pasadas Ado [Novela]',cat:'Libros / Revistas',price:'$359',img:'https://i.imgur.com/u3DKxXk.jpeg',
+   desc:'Novela en idioma japonés.',versions:[]},
+  {id:12,name:'Rocking on Japan — Edición Enero 2026 [Revista]',cat:'Libros / Revistas',price:'$429',img:'https://i.imgur.com/y1U8wjZ.jpeg',
    desc:'Revista japonesa edición enero 2026. Idioma JP.',versions:[]},
-  {id:13,name:'Rocking on Japan — Edición Julio 2024 [Revista]',cat:'Libros / Revistas',price:'$319',emoji:'📰',
+  {id:13,name:'Rocking on Japan — Edición Julio 2024 [Revista]',cat:'Libros / Revistas',price:'$319',img:'https://i.imgur.com/Ub5tvJC.jpeg',
    desc:'Revista japonesa edición julio 2024. Idioma JP.',versions:[]},
-  {id:14,name:'Música (ムジカ) — Edición Abril 2025 [Revista]',cat:'Libros / Revistas',price:'$899',emoji:'📰',
+  {id:14,name:'Música (ムジカ) — Edición Abril 2025 [Revista]',cat:'Libros / Revistas',price:'$899',img:'https://i.imgur.com/E4ZPgEI.jpeg',
    desc:'Revista japonesa edición abril 2025. Idioma JP.',versions:[]},
-
-  // ── OTROS (ejemplos) ──
-  {id:15,name:'Figura Demon Slayer — Tanjiro',cat:'Figuras',price:'$650',emoji:'🗡️',desc:'Figura coleccionable 18cm edición especial.',versions:[]},
-  {id:16,name:'Set de papelería Sanrio',cat:'Papelería',price:'$320',emoji:'🎀',desc:'Cuadernos, plumas y stickers Hello Kitty originales.',versions:[]},
-  {id:17,name:'Camiseta Harajuku Vol.1',cat:'Moda',price:'$580',emoji:'👕',desc:'Algodón 100%, diseño exclusivo Harajuku, tallas S-XL.',versions:[]},
-  {id:18,name:'BTS — Map of the Soul LP',cat:'Discos',price:'$550',emoji:'🎵',desc:'Vinilo 12" edición japonesa, incluye poster.',versions:[]},
-  {id:19,name:'Clip para cabello Kitsune',cat:'Accesorios',price:'$150',emoji:'🦊',desc:'Accesorio kawaii en forma de zorro, hecho en Japón.',versions:[]},
+  // ── MERCH ADO ──
+  {id:15,name:'Figura Ado Winter Ver. — Taito (Edición Exclusiva Round One)',cat:'Figuras',price:'$1,012',img:'https://i.imgur.com/BswttgG.jpeg',
+   desc:'Figura exclusiva edición Round One.',versions:[]},
+  {id:16,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan B',cat:'Merch / Figuras',price:'$4,500 - $5,000',img:'https://i.imgur.com/ZLm5RDu.jpeg',
+   desc:'Peluche edición especial Ado-chan B.',versions:[]},
+  {id:17,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan A',cat:'Merch / Figuras',price:'$2,200 - $3,000',img:'https://i.imgur.com/61KIP5Q.jpeg',
+   desc:'Peluche edición especial Ado-chan A.',versions:[]},
+  {id:18,name:'Linterna Tour Hibana 2025',cat:'Merch / Figuras',price:'$1,129 - $1,300',img:'https://i.imgur.com/hok16kV.jpeg',
+   desc:'Penlight oficial del tour Hibana 2025.',versions:[]},
+  {id:19,name:'Ado Yamato Nadeshiko Sharan Sharan Hibana Ado',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/HKdz60K.jpeg',
+   desc:'Peluche oficial edición Hibana.',versions:[]},
+  // Merch sin imagen aún
+  {id:20,name:'Peluche Grande de Odori',cat:'Merch / Figuras',price:'$1,159',img:'https://i.imgur.com/dOdNs3V.jpeg',desc:'Peluche grande oficial de Ado Odori.',versions:[]},
+  {id:21,name:'Peluche Grande de Ado Usseewa',cat:'Merch / Figuras',price:'$1,399 - $1,499',img:'https://i.imgur.com/9IMxDj2.jpeg',desc:'Peluche grande oficial de Ado Usseewa.',versions:[]},
+  {id:22,name:'Marioneta de Peluche — Perfil de Mona Lisa',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/JPIEqkz.jpeg',desc:'Marioneta de peluche edición Perfil de Mona Lisa.',versions:[]},
+  {id:23,name:'Gira de Ado Penlight en Marte 2023',cat:'Merch / Figuras',price:'$999 - $1,100',img:'https://i.imgur.com/AzDib1v.jpeg',desc:'Penlight oficial de la gira Marte 2023.',versions:[]},
+  {id:24,name:'Perfil de Ado Penlight Mona Lisa',cat:'Merch / Figuras',price:'$999 - $1,200',img:'https://i.imgur.com/sZAB6wz.jpeg',desc:'Penlight oficial edición Perfil de Mona Lisa.',versions:[]},
 ];
 
 let selected={}, currentFilter='all';
@@ -212,6 +246,8 @@ function renderGrid(){
         <div class="card-name">${p.name}</div>
         ${p.versions&&p.versions.length?`<div class="versions">${p.versions.map(v=>`<span class="ver-tag">${v}</span>`).join('')}</div>`:''}
         <div class="card-desc">${p.desc}</div>
+        <span class="shipping-badge" onclick="document.getElementById('shipping-tooltip').classList.add('open')">✈️ + Envío internacional</span>
+        <span class="price-note" onclick="document.getElementById('price-tooltip').classList.add('open')">Precio aproximado</span>
         <div class="card-footer">
           <div class="price">${p.price} <span>MXN</span></div>
           <button class="interest-btn ${selected[p.id]?'selected':''}" onclick="toggleInterest(${p.id})">
@@ -233,11 +269,12 @@ function filter(cat,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');renderGrid();
 }
+function closeTooltip(e){if(e.target===document.getElementById('shipping-tooltip'))document.getElementById('shipping-tooltip').classList.remove('open')}
 function openModal(){
   const items=Object.values(selected);
   const list=document.getElementById('selected-list');
   list.innerHTML=items.length
-    ?items.map(p=>`<div class="selected-item"><span>${p.emoji} ${p.name} — ${p.price} MXN</span><button class="remove-btn" onclick="removeItem(${p.id})">✕</button></div>`).join('')
+    ?items.map(p=>`<div class="selected-item"><span>${p.img?'📦':p.emoji||'📦'} ${p.name} — ${p.price} MXN</span><button class="remove-btn" onclick="removeItem(${p.id})">✕</button></div>`).join('')
     :'<div class="empty-msg">No has seleccionado ningún producto aún.</div>';
   document.getElementById('modal').classList.add('open');
 }
