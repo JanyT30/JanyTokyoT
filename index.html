@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>             
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -8,16 +8,12 @@
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:'Segoe UI',sans-serif;background:#fafafa;color:#1a1a1a}
   :root{--red:#c0392b;--border:#e5e5e5;--muted:#666;--bg:#f4f4f4}
-
   nav{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;padding:0 2rem}
   .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
   .logo{display:flex;align-items:center;gap:10px}
-  .logo-mark{width:36px;height:36px;background:var(--red);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
-  .logo-text{font-size:17px;font-weight:600;letter-spacing:0.5px}
-  .logo-sub{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+  .logo img{height:42px;object-fit:contain}
   .cart-btn{background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px}
   .cart-count{background:#fff;color:var(--red);border-radius:50%;width:18px;height:18px;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
-
   .hero{background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);color:#fff;padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
   .hero::before{content:'';position:absolute;top:-40px;right:-40px;width:300px;height:300px;border:60px solid rgba(192,57,43,0.15);border-radius:50%}
   .hero::after{content:'';position:absolute;bottom:-60px;left:-60px;width:250px;height:250px;border:50px solid rgba(192,57,43,0.1);border-radius:50%}
@@ -25,51 +21,55 @@
   .hero h1{font-size:3rem;font-weight:700;letter-spacing:-1px;margin-bottom:0.5rem}
   .hero h1 span{color:var(--red)}
   .hero p{color:#aaa;font-size:1rem;margin-top:0.75rem}
-  .jp-chars{font-size:2rem;opacity:0.15;position:absolute;top:1rem;left:2rem;letter-spacing:4px}
-
+  .search-bar{background:#fff;border-bottom:1px solid var(--border);padding:0.75rem 2rem}
+  .search-inner{max-width:1200px;margin:0 auto;position:relative}
+  .search-inner input{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 16px 9px 38px;font-size:14px;outline:none;transition:border .2s;background:#fafafa}
+  .search-inner input:focus{border-color:var(--red);background:#fff}
+  .search-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#aaa;font-size:15px;pointer-events:none}
+  .search-clear{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#aaa;cursor:pointer;font-size:16px;display:none}
   .filters{background:#fff;border-bottom:1px solid var(--border);padding:0 2rem}
   .filters-inner{max-width:1200px;margin:0 auto;display:flex;gap:8px;padding:1rem 0;overflow-x:auto;scrollbar-width:none}
   .filter-btn{border:1px solid var(--border);background:#fff;padding:6px 16px;border-radius:20px;font-size:13px;cursor:pointer;white-space:nowrap;transition:all .2s;color:#333}
   .filter-btn.active,.filter-btn:hover{background:var(--red);color:#fff;border-color:var(--red)}
-
   .section{max-width:1200px;margin:0 auto;padding:2rem}
   .section-title{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px}
   .section-title::after{content:'';flex:1;height:1px;background:var(--border)}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
-
-  .card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .card{background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
-  .card-img{width:100%;height:200px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:4rem;overflow:hidden}
-  .card-img img{width:100%;height:100%;object-fit:cover}
-  .card-body{padding:1rem}
+  .card-img{width:100%;height:220px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:4rem;overflow:hidden;padding:8px}
+  .card-img img{width:100%;height:100%;object-fit:contain;cursor:zoom-in}
+  .img-zoom-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:400;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
+  .img-zoom-overlay.open{display:flex}
+  .img-zoom-overlay img{max-width:92vw;max-height:88vh;object-fit:contain;will-change:transform;user-select:none;-webkit-user-drag:none;touch-action:none;cursor:zoom-in}
+  .img-zoom-overlay img.zoomed{cursor:grab}
+  .img-zoom-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:20px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:401}
+  .img-zoom-close:hover{background:rgba(255,255,255,0.25)}
+  .img-zoom-hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.55);font-size:12px;pointer-events:none}
+  .card-body{padding:1rem;display:flex;flex-direction:column;flex:1}
+  .card-meta{flex:1}
   .card-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--red);font-weight:600;margin-bottom:4px}
   .card-name{font-size:14px;font-weight:600;margin-bottom:6px;line-height:1.4}
   .card-desc{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5}
   .versions{margin-bottom:8px}
   .ver-tag{display:inline-block;font-size:10px;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;margin:2px 2px 2px 0;color:#555;line-height:1.4}
-
-  /* Envío badge */
-  .shipping-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#1a6fb5;background:#e8f2fb;border:1px solid #b3d4f0;border-radius:4px;padding:3px 8px;margin-bottom:10px;cursor:pointer;transition:background .2s}
+  .price-note{font-size:10px;color:#888;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:6px;cursor:pointer}
+  .price-note:hover{background:#eaeaea}
+  .shipping-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#1a6fb5;background:#e8f2fb;border:1px solid #b3d4f0;border-radius:4px;padding:3px 8px;margin-bottom:8px;cursor:pointer;transition:background .2s}
   .shipping-badge:hover{background:#d0e8f7}
-
-  .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .shipping-included{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#27ae60;background:#eafaf1;border:1px solid #a9dfbf;border-radius:4px;padding:3px 8px;margin-bottom:8px;}
+  .card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:10px;border-top:1px solid var(--border)}
   .price{font-size:16px;font-weight:700;color:#1a1a1a}
   .price span{font-size:11px;color:var(--muted);font-weight:400}
-  .price-note{font-size:10px;color:#888;background:#f4f4f4;border:1px solid #e0e0e0;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:8px;cursor:pointer}
-  .price-note:hover{background:#eaeaea}
   .interest-btn{background:transparent;border:1px solid var(--red);color:var(--red);padding:6px 12px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap}
   .interest-btn:hover,.interest-btn.selected{background:var(--red);color:#fff}
-
-  /* Tooltip de envío */
   .tooltip-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;align-items:center;justify-content:center}
   .tooltip-overlay.open{display:flex}
   .tooltip-box{background:#fff;border-radius:12px;padding:2rem;max-width:360px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.15)}
   .tooltip-box .icon{font-size:2.5rem;margin-bottom:1rem}
-  .tooltip-box h3{font-size:16px;font-weight:700;margin-bottom:0.75rem;color:#1a1a1a}
+  .tooltip-box h3{font-size:16px;font-weight:700;margin-bottom:0.75rem}
   .tooltip-box p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:1.25rem}
   .tooltip-close{background:var(--red);color:#fff;border:none;padding:8px 24px;border-radius:6px;font-size:13px;cursor:pointer;font-weight:600}
-
-  /* Modal interés */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
   .modal-overlay.open{display:flex}
   .modal{background:#fff;border-radius:16px 16px 0 0;width:100%;max-width:500px;padding:2rem;max-height:90vh;overflow-y:auto;position:relative}
@@ -88,7 +88,6 @@
   .empty-msg{text-align:center;color:var(--muted);font-size:13px;padding:1rem 0}
   .close-btn{position:absolute;top:1rem;right:1rem;background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)}
   .no-results{text-align:center;padding:3rem;color:var(--muted);font-size:14px;grid-column:1/-1}
-
   footer{background:#1a1a1a;color:#aaa;text-align:center;padding:2rem;font-size:13px;margin-top:3rem}
   footer strong{color:#fff}
   .whatsapp-float{position:fixed;bottom:24px;right:24px;background:#25d366;color:#fff;border:none;border-radius:50%;width:54px;height:54px;font-size:24px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,0.2);z-index:150;display:flex;align-items:center;justify-content:center}
@@ -99,11 +98,7 @@
 <nav>
   <div class="nav-inner">
     <div class="logo">
-      <div class="logo-mark">JT</div>
-      <div>
-        <div class="logo-text">Jany Tokyo Traveller</div>
-        <div class="logo-sub">Productos japoneses auténticos</div>
-      </div>
+      <img src="https://i.imgur.com/b6UfRsv.jpeg" alt="Jany Tokyo Traveller">
     </div>
     <button class="cart-btn" onclick="openModal()">
       Mis intereses <span class="cart-count" id="cart-count">0</span>
@@ -112,21 +107,31 @@
 </nav>
 
 <div class="hero">
-  <div class="jp-chars">東京 日本</div>
   <div class="hero-tag">Directo desde Japón</div>
   <h1>Jany <span>Tokyo</span><br>Traveller</h1>
-  <p>Figuras · Papelería · Moda · Discos · Blu-Ray · Libros · Accesorios</p>
+  <p>Figuras · Merch · Discos · Blu-Ray · Libros · Vinilos · Accesorios</p>
+</div>
+
+<div class="search-bar">
+  <div class="search-inner">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="search-input" placeholder="Buscar productos, artistas, series..." oninput="onSearch(this.value)">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
 </div>
 
 <div class="filters">
   <div class="filters-inner">
     <button class="filter-btn active" onclick="filter('all',this)">Todo</button>
     <button class="filter-btn" onclick="filter('Blu-Ray / DVD',this)">Blu-Ray / DVD</button>
+    <button class="filter-btn" onclick="filter('Discos',this)">Discos / CDs</button>
+    <button class="filter-btn" onclick="filter('Vinilos',this)">Vinilos</button>
     <button class="filter-btn" onclick="filter('Libros / Revistas',this)">Libros / Revistas</button>
-    <button class="filter-btn" onclick="filter('Merch / Figuras',this)">Merch / Figuras</button>
     <button class="filter-btn" onclick="filter('Figuras',this)">Figuras</button>
+    <button class="filter-btn" onclick="filter('Merch / Figuras',this)">Merch</button>
+    <button class="filter-btn" onclick="filter('Uma Musume',this)">Uma Musume</button>
+    <button class="filter-btn" onclick="filter('NieR:Automata',this)">NieR:Automata</button>
     <button class="filter-btn" onclick="filter('Moda',this)">Moda</button>
-    <button class="filter-btn" onclick="filter('Discos',this)">Discos</button>
     <button class="filter-btn" onclick="filter('Accesorios',this)">Accesorios</button>
   </div>
 </div>
@@ -136,7 +141,6 @@
   <div class="grid" id="grid"></div>
 </div>
 
-<!-- Tooltip precio -->
 <div class="tooltip-overlay" id="price-tooltip" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="tooltip-box">
     <div class="icon">💰</div>
@@ -146,8 +150,7 @@
   </div>
 </div>
 
-<!-- Tooltip envío -->
-<div class="tooltip-overlay" id="shipping-tooltip" onclick="closeTooltip(event)">
+<div class="tooltip-overlay" id="shipping-tooltip" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="tooltip-box">
     <div class="icon">✈️</div>
     <h3>Envío Internacional a México</h3>
@@ -156,7 +159,6 @@
   </div>
 </div>
 
-<!-- Modal interés -->
 <div class="modal-overlay" id="modal" onclick="closeOnBg(event)">
   <div class="modal">
     <button class="close-btn" onclick="closeModal()">✕</button>
@@ -175,7 +177,14 @@
   </div>
 </div>
 
-<button class="whatsapp-float" onclick="openModal()" title="Ver mis intereses">💬</button>
+<button class="whatsapp-float" onclick="openModal()">💬</button>
+
+<div class="img-zoom-overlay" id="img-zoom-overlay">
+  <button class="img-zoom-close" onclick="closeImageZoom()">✕</button>
+  <img id="img-zoom-img" src="" alt="Vista ampliada del producto">
+  <div class="img-zoom-hint">Pellizca o gira la rueda para hacer zoom · Doble toque para acercar</div>
+</div>
+
 
 <footer>
   <strong>Jany Tokyo Traveller</strong><br>
@@ -184,115 +193,277 @@
 </footer>
 
 <script>
-const PRODUCTS = [
-  {id:1,name:'Hibana — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,500',img:'https://i.imgur.com/YsmBAbp.jpeg',
-   desc:'Concierto Ado. Edición limitada.',versions:['Sin bonus','Con bonus soporte de vaso','Con bonus llavero de acrílico']},
-  {id:2,name:'Hibana — Edición Regular [DVD/Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,249',img:'https://i.imgur.com/O34HK6k.jpeg',
-   desc:'Saitama Super Arena / Orlando.',versions:['Sin bonus','Con bonus']},
-  {id:3,name:'Shinzou — Edición Limitada 1ra Edición + Bonus [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$920',img:'https://i.imgur.com/ETf2rt8.jpeg',
-   desc:'Primera edición con bonus.',versions:['Con bonus']},
-  {id:4,name:'Shinzou — Edición Estándar [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$650',img:'https://i.imgur.com/0UCXTN7.jpeg',
-   desc:'Edición estándar con bonus.',versions:['Con bonus']},
-  {id:5,name:'Perfil de la Mona Lisa — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,499',img:'https://i.imgur.com/tLJf1zp.jpeg',
-   desc:'Edición limitada.',versions:['Sin bonus','Con bonus']},
-  {id:6,name:'Perfil de la Mona Lisa — Edición Regular [DVD]',cat:'Blu-Ray / DVD',price:'$999',img:'https://i.imgur.com/o7c6gJx.jpeg',
-   desc:'Edición regular en DVD.',versions:['Sin bonus','Con bonus']},
-  {id:7,name:'Marte — Edición Limitada 1ra Edición [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,199',img:'https://i.imgur.com/rbt8d9t.jpeg',
-   desc:'Primera edición limitada en Blu-Ray.',versions:[]},
-  {id:8,name:'Marte — Edición Limitada 1ra Edición [DVD]',cat:'Blu-Ray / DVD',price:'$799',img:'https://i.imgur.com/dcWpEhu.jpeg',
-   desc:'Primera edición limitada en DVD.',versions:[]},
-  {id:9,name:'Vivarium Ado y Yo [Novela]',cat:'Libros / Revistas',price:'$399',img:'https://i.imgur.com/E7fM4hl.jpeg',
-   desc:'Novela en idioma japonés.',versions:[]},
-  {id:10,name:'Musica (ムジカ) — Edición Marzo 2026 [Revista]',cat:'Libros / Revistas',price:'$249',img:'https://i.imgur.com/5PDwZmg.jpeg',
-   desc:'Revista japonesa edición marzo 2026. Idioma JP.',versions:[]},
-  {id:11,name:'アドロイド — Vidas Pasadas Ado [Novela]',cat:'Libros / Revistas',price:'$359',img:'https://i.imgur.com/u3DKxXk.jpeg',
-   desc:'Novela en idioma japonés.',versions:[]},
-  {id:12,name:'Rocking on Japan — Edición Enero 2026 [Revista]',cat:'Libros / Revistas',price:'$429',img:'https://i.imgur.com/y1U8wjZ.jpeg',
-   desc:'Revista japonesa edición enero 2026. Idioma JP.',versions:[]},
-  {id:13,name:'Rocking on Japan — Edición Julio 2024 [Revista]',cat:'Libros / Revistas',price:'$319',img:'https://i.imgur.com/Ub5tvJC.jpeg',
-   desc:'Revista japonesa edición julio 2024. Idioma JP.',versions:[]},
-  {id:14,name:'Música (ムジカ) — Edición Abril 2025 [Revista]',cat:'Libros / Revistas',price:'$899',img:'https://i.imgur.com/E4ZPgEI.jpeg',
-   desc:'Revista japonesa edición abril 2025. Idioma JP.',versions:[]},
-  // ── MERCH ADO ──
-  {id:15,name:'Figura Ado Winter Ver. — Taito (Edición Exclusiva Round One)',cat:'Figuras',price:'$1,012',img:'https://i.imgur.com/BswttgG.jpeg',
-   desc:'Figura exclusiva edición Round One.',versions:[]},
-  {id:16,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan B',cat:'Merch / Figuras',price:'$4,500 - $5,000',img:'https://i.imgur.com/ZLm5RDu.jpeg',
-   desc:'Peluche edición especial Ado-chan B.',versions:[]},
-  {id:17,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan A',cat:'Merch / Figuras',price:'$2,200 - $3,000',img:'https://i.imgur.com/61KIP5Q.jpeg',
-   desc:'Peluche edición especial Ado-chan A.',versions:[]},
-  {id:18,name:'Linterna Tour Hibana 2025',cat:'Merch / Figuras',price:'$1,129 - $1,300',img:'https://i.imgur.com/hok16kV.jpeg',
-   desc:'Penlight oficial del tour Hibana 2025.',versions:[]},
-  {id:19,name:'Ado Yamato Nadeshiko Sharan Sharan Hibana Ado',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/HKdz60K.jpeg',
-   desc:'Peluche oficial edición Hibana.',versions:[]},
-  // Merch sin imagen aún
-  {id:20,name:'Peluche Grande de Odori',cat:'Merch / Figuras',price:'$1,159',img:'https://i.imgur.com/dOdNs3V.jpeg',desc:'Peluche grande oficial de Ado Odori.',versions:[]},
-  {id:21,name:'Peluche Grande de Ado Usseewa',cat:'Merch / Figuras',price:'$1,399 - $1,499',img:'https://i.imgur.com/9IMxDj2.jpeg',desc:'Peluche grande oficial de Ado Usseewa.',versions:[]},
-  {id:22,name:'Marioneta de Peluche — Perfil de Mona Lisa',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/JPIEqkz.jpeg',desc:'Marioneta de peluche edición Perfil de Mona Lisa.',versions:[]},
-  {id:23,name:'Gira de Ado Penlight en Marte 2023',cat:'Merch / Figuras',price:'$999 - $1,100',img:'https://i.imgur.com/AzDib1v.jpeg',desc:'Penlight oficial de la gira Marte 2023.',versions:[]},
-  {id:24,name:'Perfil de Ado Penlight Mona Lisa',cat:'Merch / Figuras',price:'$999 - $1,200',img:'https://i.imgur.com/sZAB6wz.jpeg',desc:'Penlight oficial edición Perfil de Mona Lisa.',versions:[]},
+const P = [
+  // BLU-RAY / DVD
+  {id:1,name:'Hibana — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,500',img:'https://i.imgur.com/YsmBAbp.jpeg',tags:['ado','hibana','blu-ray','concierto'],desc:'Concierto Ado. Edición limitada.',versions:['Sin bonus','Con bonus soporte de vaso','Con bonus llavero de acrílico']},
+  {id:2,name:'Hibana — Edición Regular [DVD/Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,249',img:'https://i.imgur.com/O34HK6k.jpeg',tags:['ado','hibana','dvd','blu-ray','concierto'],desc:'Saitama Super Arena / Orlando.',versions:['Sin bonus','Con bonus']},
+  {id:3,name:'Shinzou — Edición Limitada 1ra Edición + Bonus [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$920',img:'https://i.imgur.com/ETf2rt8.jpeg',tags:['ado','shinzou','blu-ray','concierto'],desc:'Primera edición con bonus.',versions:['Con bonus']},
+  {id:4,name:'Shinzou — Edición Estándar [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$650',img:'https://i.imgur.com/0UCXTN7.jpeg',tags:['ado','shinzou','blu-ray','concierto'],desc:'Edición estándar con bonus.',versions:['Con bonus']},
+  {id:5,name:'Perfil de la Mona Lisa — Edición Limitada [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,499',img:'https://i.imgur.com/tLJf1zp.jpeg',tags:['ado','mona lisa','blu-ray','concierto'],desc:'Edición limitada.',versions:['Sin bonus','Con bonus']},
+  {id:6,name:'Perfil de la Mona Lisa — Edición Regular [DVD]',cat:'Blu-Ray / DVD',price:'$999',img:'https://i.imgur.com/o7c6gJx.jpeg',tags:['ado','mona lisa','dvd','concierto'],desc:'Edición regular en DVD.',versions:['Sin bonus','Con bonus']},
+  {id:7,name:'Marte — Edición Limitada 1ra Edición [Blu-Ray]',cat:'Blu-Ray / DVD',price:'$1,199',img:'https://i.imgur.com/rbt8d9t.jpeg',tags:['ado','marte','blu-ray','concierto'],desc:'Primera edición limitada en Blu-Ray.',versions:[]},
+  {id:8,name:'Marte — Edición Limitada 1ra Edición [DVD]',cat:'Blu-Ray / DVD',price:'$799',img:'https://i.imgur.com/dcWpEhu.jpeg',tags:['ado','marte','dvd','concierto'],desc:'Primera edición limitada en DVD.',versions:[]},
+  // LIBROS / REVISTAS
+  {id:9,name:'Vivarium Ado y Yo [Novela]',cat:'Libros / Revistas',price:'$399',img:'https://i.imgur.com/E7fM4hl.jpeg',tags:['ado','vivarium','novela','libro'],desc:'Novela en idioma japonés.',versions:[]},
+  {id:10,name:'Musica (ムジカ) — Edición Marzo 2026 [Revista]',cat:'Libros / Revistas',price:'$249',img:'https://i.imgur.com/5PDwZmg.jpeg',tags:['ado','musica','muzika','revista'],desc:'Revista japonesa edición marzo 2026. Idioma JP.',versions:[]},
+  {id:11,name:'アドロイド — Vidas Pasadas Ado [Novela]',cat:'Libros / Revistas',price:'$359',img:'https://i.imgur.com/u3DKxXk.jpeg',tags:['ado','androido','vidas pasadas','novela','libro'],desc:'Novela en idioma japonés.',versions:[]},
+  {id:12,name:'Rocking on Japan — Edición Enero 2026 [Revista]',cat:'Libros / Revistas',price:'$429',img:'https://i.imgur.com/y1U8wjZ.jpeg',tags:['ado','rocking on japan','revista'],desc:'Revista japonesa edición enero 2026. Idioma JP.',versions:[]},
+  {id:13,name:'Rocking on Japan — Edición Julio 2024 [Revista]',cat:'Libros / Revistas',price:'$319',img:'https://i.imgur.com/Ub5tvJC.jpeg',tags:['ado','rocking on japan','revista'],desc:'Revista japonesa edición julio 2024. Idioma JP.',versions:[]},
+  {id:14,name:'Música (ムジカ) — Edición Abril 2025 [Revista]',cat:'Libros / Revistas',price:'$899',img:'https://i.imgur.com/E4ZPgEI.jpeg',tags:['ado','musica','muzika','revista'],desc:'Revista japonesa edición abril 2025. Idioma JP.',versions:[]},
+  // FIGURAS
+  {id:15,name:'Figura Ado Winter Ver. — Taito (Edición Exclusiva Round One)',cat:'Figuras',price:'$1,012',img:'https://i.imgur.com/BswttgG.jpeg',tags:['ado','figura','taito','round one','winter'],desc:'Figura exclusiva edición Round One.',versions:[]},
+  // MERCH
+  {id:16,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan B',cat:'Merch / Figuras',price:'$4,500 - $5,000',img:'https://i.imgur.com/ZLm5RDu.jpeg',tags:['ado','peluche','nacimiento'],desc:'Peluche edición especial Ado-chan B.',versions:[]},
+  {id:17,name:'¡Felicidades por tu nacimiento! Peluche Ado-chan A',cat:'Merch / Figuras',price:'$2,200 - $3,000',img:'https://i.imgur.com/61KIP5Q.jpeg',tags:['ado','peluche','nacimiento'],desc:'Peluche edición especial Ado-chan A.',versions:[]},
+  {id:18,name:'Linterna Tour Hibana 2025',cat:'Merch / Figuras',price:'$1,129 - $1,300',img:'https://i.imgur.com/hok16kV.jpeg',tags:['ado','hibana','penlight','linterna','tour'],desc:'Penlight oficial del tour Hibana 2025.',versions:[]},
+  {id:19,name:'Ado Yamato Nadeshiko Sharan Sharan Hibana',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/HKdz60K.jpeg',tags:['ado','hibana','peluche','yamato nadeshiko'],desc:'Peluche oficial edición Hibana.',versions:[]},
+  {id:20,name:'Peluche Grande de Odori',cat:'Merch / Figuras',price:'$1,159',img:'https://i.imgur.com/dOdNs3V.jpeg',tags:['ado','odori','peluche'],desc:'Peluche grande oficial de Ado Odori.',versions:[]},
+  {id:21,name:'Peluche Grande de Ado Usseewa',cat:'Merch / Figuras',price:'$1,399 - $1,499',img:'https://i.imgur.com/9IMxDj2.jpeg',tags:['ado','usseewa','peluche'],desc:'Peluche grande oficial de Ado Usseewa.',versions:[]},
+  {id:22,name:'Marioneta de Peluche — Perfil de Mona Lisa',cat:'Merch / Figuras',price:'$1,400 - $1,800',img:'https://i.imgur.com/JPIEqkz.jpeg',tags:['ado','mona lisa','marioneta','peluche'],desc:'Marioneta de peluche edición Perfil de Mona Lisa.',versions:[]},
+  {id:23,name:'Gira de Ado Penlight en Marte 2023',cat:'Merch / Figuras',price:'$999 - $1,100',img:'https://i.imgur.com/AzDib1v.jpeg',tags:['ado','marte','penlight','linterna','gira'],desc:'Penlight oficial de la gira Marte 2023.',versions:[]},
+  {id:24,name:'Perfil de Ado Penlight Mona Lisa',cat:'Merch / Figuras',price:'$999 - $1,200',img:'https://i.imgur.com/sZAB6wz.jpeg',tags:['ado','mona lisa','penlight','linterna'],desc:'Penlight oficial edición Perfil de Mona Lisa.',versions:[]},
+  // DISCOS / CDs
+  {id:25,name:'Álbum de Versiones de Canciones de Ado (Edición Regular)',cat:'Discos',price:'$295',img:'https://i.imgur.com/cSiDUmw.jpeg',tags:['ado','album','cd','versiones'],desc:'CD edición regular.',versions:[]},
+  {id:26,name:'Sakura Biyori y la Máquina del Tiempo con Hatsune Miku / Principios de Verano (Edición Regular)',cat:'Discos',price:'$248',img:'https://i.imgur.com/YcyRNH0.jpeg',tags:['ado','hatsune miku','miku','sakura biyori','cd'],desc:'CD single edición regular primera impresión.',versions:[]},
+  {id:27,name:'Sakura Biyori y la Máquina del Tiempo con Hatsune Miku / Principios de Verano (Edición Limitada)',cat:'Discos',price:'$271',img:'https://i.imgur.com/RJoFCRy.jpeg',tags:['ado','hatsune miku','miku','sakura biyori','cd'],desc:'CD single edición limitada de primera edición.',versions:[]},
+  {id:28,name:'Principios de Verano / Sakura Biyori y la Máquina del Tiempo con Hatsune Miku (Edición Limitada)',cat:'Discos',price:'$271',img:'https://i.imgur.com/8quZfrO.jpeg',tags:['ado','hatsune miku','miku','sakura biyori','cd'],desc:'CD single edición limitada de primera edición.',versions:[]},
+  {id:29,name:'Kyogen (Edición Regular) — Ado',cat:'Discos',price:'$310',img:'https://i.imgur.com/q94itpb.jpeg',tags:['ado','kyogen','cd'],desc:'CD single edición regular.',versions:[]},
+  {id:30,name:'Zanmu (Edición Regular / Primera Edición) — Ado',cat:'Discos',price:'$402',img:'https://i.imgur.com/lRdlPwh.jpeg',tags:['ado','zanmu','cd'],desc:'CD single edición regular / primera edición.',versions:[]},
+  {id:31,name:'Álbum de Versiones de Canciones de Ado (Edición Limitada)',cat:'Discos',price:'$414',img:'https://i.imgur.com/x4FnJ3x.jpeg',tags:['ado','album','cd','versiones','limitada'],desc:'CD edición limitada.',versions:[]},
+  {id:32,name:'Sueño Persistente con Charm Brillante Balanceante (Edición Limitada) — Ado',cat:'Discos',price:'$467',img:'https://i.imgur.com/ohfUcUX.jpeg',tags:['ado','sueno persistente','cd','charm'],desc:'CD edición limitada con charm brillante balanceante.',versions:[]},
+  {id:33,name:'El Mejor Álbum Publicitario de Ado — Set de 2 Discos (Edición Regular)',cat:'Discos',price:'$504',img:'https://i.imgur.com/5BtObCJ.jpeg',tags:['ado','album','cd','best album'],desc:'Set de 2 CDs edición regular.',versions:[]},
+  {id:34,name:'Uta no Uta — One Piece Film Red (Edición Regular)',cat:'Discos',price:'$252',img:'https://i.imgur.com/cRSVfz4.jpeg',tags:['ado','one piece','film red','uta','cd'],desc:'CD single edición regular.',versions:[]},
+  {id:35,name:'Uta no Uta — One Piece Film Red (Edición Limitada + DVD)',cat:'Discos',price:'$316',img:'https://i.imgur.com/W63jTpU.jpeg',tags:['ado','one piece','film red','uta','cd','dvd'],desc:'CD + DVD edición limitada de primera edición.',versions:[]},
+  {id:36,name:'El Mejor Álbum Publicitario de Ado — Versión Comedia (Edición Limitada, 2 Discos + DVD)',cat:'Discos',price:'$913',img:'https://i.imgur.com/uoxvn8z.jpeg',tags:['ado','album','cd','dvd','comedia'],desc:'Set de 2 CDs + DVD, edición limitada versión Comedia.',versions:[]},
+  {id:37,name:'Campanella (Edición Regular) — Ado',cat:'Discos',price:'$528',img:'https://i.imgur.com/7kDMsMd.jpeg',tags:['ado','campanella','blu-ray'],desc:'Single Blu-Ray edición regular.',versions:[]},
+  {id:38,name:'Campanella (Edición Limitada de Primera Edición) [Blu-Ray] — Ado',cat:'Discos',price:'$644',img:'https://i.imgur.com/gVi7WL6.jpeg',tags:['ado','campanella','blu-ray','limitada'],desc:'Single Blu-Ray edición limitada de primera edición.',versions:[]},
+  {id:39,name:'Sueño Persistente (Edición Limitada Blu-Ray) — Ado',cat:'Discos',price:'$872',img:'https://i.imgur.com/XeTd1g4.jpeg',tags:['ado','sueno persistente','blu-ray','limitada'],desc:'Single Blu-Ray edición limitada de primera edición.',versions:[]},
+  // VINILOS
+  {id:40,name:'Vivarium [Edición Limitada Completa] [Vinyl Single]',cat:'Vinilos',price:'$469',img:'https://i.imgur.com/T5dMZC6.jpeg',tags:['ado','vivarium','vinilo','vinyl'],desc:'Vinyl single edición limitada completa.',noShipping:true,versions:[]},
+  {id:41,name:'Vivarium [Edición Limitada Completa] [Vinyl Single + Mercancía]',cat:'Vinilos',price:'$1,095',img:'https://i.imgur.com/tXxhhKl.jpeg',tags:['ado','vivarium','vinilo','vinyl','merch'],desc:'Vinyl single edición limitada completa con mercancía incluida.',noShipping:true,versions:[]},
+  // UMA MUSUME
+  {id:42,name:'Figura Banpresto Uma Musume — Machikane Tanhoizer',cat:'Uma Musume',price:'$552.88',img:'https://i.imgur.com/BbYvA8p.jpeg',tags:['uma musume','pretty derby','banpresto','machikane tanhoizer'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:43,name:'Claynel Uma Musume — Copano Rickey Racing Outfit Ver. (Escala 1/7)',cat:'Uma Musume',price:'$3,487.08',img:'https://i.imgur.com/BkYzvXq.jpeg',tags:['uma musume','pretty derby','claynel','copano rickey'],desc:'Figura completa pintada escala 1/7 PVC/ABS.',versions:[]},
+  {id:44,name:'Fat Company Uma Musume — Eishin Flash Victory Pose Ver. (Escala 1/7)',cat:'Uma Musume',price:'$3,595.14',img:'https://i.imgur.com/W7qVFdW.jpeg',tags:['uma musume','pretty derby','fat company','eishin flash'],desc:'Plástico pintado escala 1/7. Base incluida. Altura aprox. 250mm.',versions:[]},
+  {id:45,name:'Max Factory Uma Musume — Narita Top Road (Escala 1/7)',cat:'Uma Musume',price:'$3,174.40',img:'https://i.imgur.com/9KDoGM5.jpeg',tags:['uma musume','pretty derby','max factory','narita top road'],desc:'Figura de plástico pre-pintada escala 1/7.',versions:[]},
+  {id:46,name:'Phat Company Uma Musume — Danz Frame (Escala 1/7)',cat:'Uma Musume',price:'$3,425.18',img:'https://i.imgur.com/82V6uFw.jpeg',tags:['uma musume','pretty derby','phat company','danz frame'],desc:'Figura de plástico pintada a escala 1/7.',versions:[]},
+  {id:47,name:'Uma Musume BoC\'z — Vivlos como figura Lil♡V',cat:'Uma Musume',price:'$338.60',img:'https://i.imgur.com/XCg4lT4.jpeg',tags:['uma musume','pretty derby','bocz','vivlos'],desc:'Figura Uma Musume Pretty Derby BoC\'z.',versions:[]},
+  {id:48,name:'PalVerse Uma Musume Pretty Derby Vol.1 — 6-Pack BOX',cat:'Uma Musume',price:'$939.09',img:'https://i.imgur.com/51haAFV.jpeg',tags:['uma musume','pretty derby','palverse','box'],desc:'Pack de 6 figuras PalVerse Vol.1.',versions:[]},
+  {id:49,name:'Fat Company Uma Musume — Admire Vega (Escala 1/7) Reedición',cat:'Uma Musume',price:'$3,441.98',img:'https://i.imgur.com/bcYQMv6.jpeg',tags:['uma musume','pretty derby','fat company','admire vega'],desc:'Plástico pintado escala 1/7. Base incluida. Altura aprox. 260mm. Reedición.',versions:[]},
+  {id:50,name:'Uma Musume — Figura de prueba Gentildonna (Trio Pretty Derby)',cat:'Uma Musume',price:'$581.97',img:'https://i.imgur.com/3VaTlRc.jpeg',tags:['uma musume','pretty derby','gentildonna','trio'],desc:'Figura de prueba del trío Pretty Derby.',versions:[]},
+  {id:51,name:'Uma Musume BoC\'z — Vilshina como la Reina V',cat:'Uma Musume',price:'$345.22',img:'https://i.imgur.com/056YdvM.jpeg',tags:['uma musume','pretty derby','bocz','vilshina'],desc:'Figura Uma Musume Pretty Derby BoC\'z.',versions:[]},
+  {id:52,name:'Fat Company Uma Musume — Gran Alegria (Escala 1/7)',cat:'Uma Musume',price:'$3,534.70',img:'https://i.imgur.com/JGkxrTT.jpeg',tags:['uma musume','pretty derby','fat company','gran alegria'],desc:'Plástico pintado escala 1/7. Base incluida. Altura aprox. 260mm.',versions:[]},
+  {id:53,name:'Fat Company Uma Musume — Fusaichi Pandora (Escala 1/7)',cat:'Uma Musume',price:'$3,559.17',img:'https://i.imgur.com/xQ0efKX.jpeg',tags:['uma musume','pretty derby','fat company','fusaichi pandora'],desc:'Plástico pintado escala 1/7. Base incluida. Altura aprox. 260mm.',versions:[]},
+  {id:54,name:'Uma Musume X Tellar — Satono Diamond -STARTING FUTURE-',cat:'Uma Musume',price:'$283.45',img:'https://i.imgur.com/KFXnU4e.jpeg',tags:['uma musume','pretty derby','satono diamond','tellar'],desc:'Figura Uma Musume x Tellar.',versions:[]},
+  {id:55,name:'Uma Musume Trio Try iT — Hishi Miracle (Aprox. 21 cm)',cat:'Uma Musume',price:'$354.47',img:'https://i.imgur.com/xGTrqmW.jpeg',tags:['uma musume','pretty derby','trio try it','hishi miracle'],desc:'Figura oficial aprox. 21cm.',versions:[]},
+  {id:56,name:'Uma Musume Yumemirize — Copano Ricky GazeonMe!',cat:'Uma Musume',price:'$291.65',img:'https://i.imgur.com/35FHvMQ.jpeg',tags:['uma musume','pretty derby','yumemirize','copano ricky'],desc:'Figura Uma Musume Yumemirize.',versions:[]},
+  {id:57,name:'Uma Musume — Smart Falcon (Escala 1/7)',cat:'Uma Musume',price:'$3,503.75',img:'https://i.imgur.com/oF5pv2c.jpeg',tags:['uma musume','pretty derby','smart falcon'],desc:'Figura completa a escala 1/7.',versions:[]},
+  {id:58,name:'Uma Musume Yumemirize — Smart Falcon GazeonMe!',cat:'Uma Musume',price:'$202.76',img:'https://i.imgur.com/QA9erGz.jpeg',tags:['uma musume','pretty derby','yumemirize','smart falcon'],desc:'Figura Uma Musume Yumemirize.',versions:[]},
+  {id:59,name:'Uma Musume Trio-Try-iT — Admire Vega',cat:'Uma Musume',price:'$399.18',img:'https://i.imgur.com/xkcruPU.jpeg',tags:['uma musume','pretty derby','trio try it','admire vega'],desc:'Figura Uma Musume Trio-Try-iT.',versions:[]},
+  {id:60,name:'Uma Musume — Biwa Hayahide (Escala 1/7)',cat:'Uma Musume',price:'$2,966.75',img:'https://i.imgur.com/cndMEtn.jpeg',tags:['uma musume','pretty derby','biwa hayahide'],desc:'Plástico pintado escala 1/7.',versions:[]},
+  {id:61,name:'Uma Musume — Daiwa Scarlet [Scarlet Nuit Etoile] (Escala 1/7)',cat:'Uma Musume',price:'$3,113.16',img:'https://i.imgur.com/pTzT3hI.jpeg',tags:['uma musume','pretty derby','daiwa scarlet'],desc:'Figura completa de plástico prepintada escala 1/7.',versions:[]},
+  {id:62,name:'Uma Musume Trio-Try-iT — Aston Machan (Ropa Informal, Aprox. 21 cm)',cat:'Uma Musume',price:'$393.50',img:'https://i.imgur.com/PPD3tJL.jpeg',tags:['uma musume','pretty derby','trio try it','aston machan'],desc:'Figura aprox. 21cm, ropa informal.',versions:[]},
+  {id:63,name:'Figura Banpresto Uma Musume — Kitasan Negro',cat:'Uma Musume',price:'$403.41',img:'https://i.imgur.com/YKDkbS1.jpeg',tags:['uma musume','pretty derby','banpresto','kitasan negro'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:64,name:'Ichiban Kuji Uma Musume Vol.12 — Machikane Tanhoizer Turbulencia Azul (B Prize)',cat:'Uma Musume',price:'$1,166.59',img:'https://i.imgur.com/AonELkI.jpeg',tags:['uma musume','pretty derby','ichiban kuji','machikane tanhoizer'],desc:'Figura Ichiban Kuji Uma Musume Vol.12 B Prize.',versions:[]},
+  {id:65,name:'Uma Musume BoC\'z — Rice Shower como Oriza (Aprox. 18 cm)',cat:'Uma Musume',price:'$375.38',img:'https://i.imgur.com/JlkjJ8z.jpeg',tags:['uma musume','pretty derby','bocz','rice shower'],desc:'Figura aprox. 18cm.',versions:[]},
+  {id:66,name:'Uma Musume — Mihono Bourbon (Banpresto)',cat:'Uma Musume',price:'$315.85',img:'https://i.imgur.com/NU3ZRjn.jpeg',tags:['uma musume','pretty derby','banpresto','mihono bourbon'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:67,name:'Uma Musume — Figura de prueba Trio Manhattan Cafe',cat:'Uma Musume',price:'$976.53',img:'https://i.imgur.com/baz2gc3.jpeg',tags:['uma musume','pretty derby','manhattan cafe','trio'],desc:'Figura de prueba Trio Uma Musume.',versions:[]},
+  {id:68,name:'Figura Banpresto Uma Musume — Daiwa Scarlet',cat:'Uma Musume',price:'$560.81',img:'https://i.imgur.com/wx8LpJg.jpeg',tags:['uma musume','pretty derby','banpresto','daiwa scarlet'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:69,name:'Good Smile Nendoroid Uma Musume — Oguri Cap (Reedición)',cat:'Uma Musume',price:'$969.12',img:'https://i.imgur.com/9ppQa9x.jpeg',tags:['uma musume','pretty derby','nendoroid','good smile','oguri cap'],desc:'Figura articulada Nendoroid, sin escala, aprox. 100mm. Reedición.',versions:[]},
+  {id:70,name:'Uma Musume Trio-Try-iT — Satono Diamond',cat:'Uma Musume',price:'$436.08',img:'https://i.imgur.com/mNztysy.jpeg',tags:['uma musume','pretty derby','trio try it','satono diamond'],desc:'Figura Uma Musume Trio-Try-iT.',versions:[]},
+  {id:71,name:'Uma Musume — Oguri Cap (Banpresto)',cat:'Uma Musume',price:'$534.36',img:'https://i.imgur.com/cH3vQqD.jpeg',tags:['uma musume','pretty derby','banpresto','oguri cap'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:72,name:'Figura Banpresto Uma Musume — Nice Nature',cat:'Uma Musume',price:'$370.35',img:'https://i.imgur.com/N1YXxxs.jpeg',tags:['uma musume','pretty derby','banpresto','nice nature'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:73,name:'Figura Banpresto Uma Musume — Karen Chan',cat:'Uma Musume',price:'$290.99',img:'https://i.imgur.com/LhubGYl.jpeg',tags:['uma musume','pretty derby','banpresto','karen chan'],desc:'Figura Banpresto Uma Musume Pretty Derby.',versions:[]},
+  {id:74,name:'Good Smile Nendoroid Uma Musume — Manhattan Cafe (Reedición)',cat:'Uma Musume',price:'$887.51',img:'https://i.imgur.com/E8tvFwt.jpeg',tags:['uma musume','pretty derby','nendoroid','good smile','manhattan cafe'],desc:'Figura articulada Nendoroid, sin escala, aprox. 100mm. Reedición.',versions:[]},
+  // NieR:Automata
+  {id:75,name:'POP UP PARADE NieR:Automata Ver1.1a — 2B (YoRHa No.2 Tipo B)',cat:'NieR:Automata',price:'$1,197.94',img:'https://i.imgur.com/0PGUTTe.jpeg',tags:['nier','nier automata','pop up parade','2b','yorha'],desc:'Figura completa de plástico pintada sin escala.',versions:[]},
+  {id:76,name:'NieR:Automata Ver1.1a — 2B Noodle Stopper',cat:'NieR:Automata',price:'$402.09',img:'https://i.imgur.com/QKre2LP.jpeg',tags:['nier','nier automata','noodle stopper','2b'],desc:'Figura 2B del anime NieR:Automata Ver1.1a.',versions:[]},
+  {id:77,name:'NieR:Automata Ver1.1a — 2B Figura Premium Chokonose',cat:'NieR:Automata',price:'$375.64',img:'https://i.imgur.com/TsIdbXi.jpeg',tags:['nier','nier automata','chokonose','2b'],desc:'Figura premium Chokonose 2B.',versions:[]},
+  {id:78,name:'SH Figuarts NieR:Automata Ver1.1a — 9S (Aprox. 145mm)',cat:'NieR:Automata',price:'$787.00',img:'https://i.imgur.com/dvYNeKk.jpeg',tags:['nier','nier automata','sh figuarts','tamashii nations','9s'],desc:'Figura articulada PVC y ABS pintado, aprox. 145mm.',versions:[]},
+  {id:79,name:'NieR:Automata Plastic Model Kit — 2B (YoRHa No.2 Tipo B)',cat:'NieR:Automata',price:'$1,245.69',img:'https://i.imgur.com/1Qpj2um.jpeg',tags:['nier','nier automata','model kit','2b','yorha'],desc:'Kit de modelo plástico NieR:Automata 2B.',versions:[]},
+  {id:80,name:'POP UP PARADE NieR:Automata Ver1.1a — 9S (YoRHa No.9 Tipo S)',cat:'NieR:Automata',price:'$673.24',img:'https://i.imgur.com/JPkpjSY.jpeg',tags:['nier','nier automata','pop up parade','9s','yorha'],desc:'Figura completa de plástico pintada sin escala.',versions:[]},
+  {id:81,name:'NieR:Automata — A2 (YoRHa Tipo A N.°2) Edición DX',cat:'NieR:Automata',price:'$3,766.96',img:'https://i.imgur.com/qEoYstc.jpeg',tags:['nier','nier automata','a2','yorha','dx'],desc:'Figura completa A2 Edición DX.',versions:[]},
+  {id:82,name:'Nendoroid NieR:Automata — 2B (YoRHa No.2 Tipo B) Segunda Reedición',cat:'NieR:Automata',price:'$855.77',img:'https://i.imgur.com/MyiJd2j.jpeg',tags:['nier','nier automata','nendoroid','2b','yorha'],desc:'Figura articulada plástico pintada sin escala. Segunda reedición.',versions:[]},
+  {id:83,name:'Nendoroid NieR:Automata — A2 (YoRHa Tipo A N.°2) Reedición',cat:'NieR:Automata',price:'$687.79',img:'https://i.imgur.com/7lZSxZi.jpeg',tags:['nier','nier automata','nendoroid','a2','yorha'],desc:'Figura articulada plástico pintada sin escala. Reedición.',versions:[]},
+  {id:84,name:'Nendoroid NieR Replicant ver.1.22474487139 — Kaine',cat:'NieR:Automata',price:'$1,121.62',img:'https://i.imgur.com/aLVYWfl.jpeg',tags:['nier','nier replicant','nendoroid','kaine'],desc:'Figura articulada pintada ABS y PVC sin escala.',versions:[]},
+  {id:85,name:'NieR:Automata Ver1.1a — A2 Figura Premium Chokonose',cat:'NieR:Automata',price:'$634.88',img:'https://i.imgur.com/J203XxF.jpeg',tags:['nier','nier automata','chokonose','a2'],desc:'Figura premium Chokonose A2.',versions:[]},
 ];
 
-let selected={}, currentFilter='all';
+let selected={}, currentFilter='all', searchQuery='';
+
+function getFiltered(){
+  let items=currentFilter==='all'?P:P.filter(p=>p.cat===currentFilter);
+  if(searchQuery){
+    const q=searchQuery.toLowerCase();
+    items=items.filter(p=>p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||(p.desc&&p.desc.toLowerCase().includes(q))||(p.tags&&p.tags.some(t=>t.toLowerCase().includes(q))));
+  }
+  return items;
+}
 
 function renderGrid(){
   const g=document.getElementById('grid');
-  const items=currentFilter==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===currentFilter);
-  if(!items.length){g.innerHTML='<div class="no-results">No hay productos en esta categoría</div>';return}
+  const items=getFiltered();
+  if(!items.length){g.innerHTML=`<div class="no-results">${searchQuery?`No se encontraron resultados para "<strong>${searchQuery}</strong>"`:'No hay productos en esta categoría'}</div>`;return;}
   g.innerHTML=items.map(p=>`
     <div class="card">
-      <div class="card-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`:(p.emoji||'📦')}</div>
+      <div class="card-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy" onclick="openImageZoom('${p.img}')">`:(p.emoji||'📦')}</div>
       <div class="card-body">
-        <div class="card-cat">${p.cat}</div>
-        <div class="card-name">${p.name}</div>
-        ${p.versions&&p.versions.length?`<div class="versions">${p.versions.map(v=>`<span class="ver-tag">${v}</span>`).join('')}</div>`:''}
-        <div class="card-desc">${p.desc}</div>
-        <span class="shipping-badge" onclick="document.getElementById('shipping-tooltip').classList.add('open')">✈️ + Envío internacional</span>
-        <span class="price-note" onclick="document.getElementById('price-tooltip').classList.add('open')">Precio aproximado</span>
+        <div class="card-meta">
+          <div class="card-cat">${p.cat}</div>
+          <div class="card-name">${p.name}</div>
+          ${p.versions&&p.versions.length?`<div class="versions">${p.versions.map(v=>`<span class="ver-tag">${v}</span>`).join('')}</div>`:''}
+          <div class="card-desc">${p.desc}</div>
+          <span class="price-note" onclick="document.getElementById('price-tooltip').classList.add('open')">Precio aproximado</span><br>
+          ${p.noShipping?'<span class="shipping-included">✅ Envío internacional incluido</span>':`<span class="shipping-badge" onclick="document.getElementById('shipping-tooltip').classList.add('open')">✈️ + Envío internacional</span>`}
+        </div>
         <div class="card-footer">
           <div class="price">${p.price} <span>MXN</span></div>
-          <button class="interest-btn ${selected[p.id]?'selected':''}" onclick="toggleInterest(${p.id})">
-            ${selected[p.id]?'✓ Agregado':'Me interesa'}
-          </button>
+          <button class="interest-btn ${selected[p.id]?'selected':''}" onclick="toggleInterest(${p.id})">${selected[p.id]?'✓ Agregado':'Me interesa'}</button>
         </div>
       </div>
     </div>`).join('');
 }
 
-function toggleInterest(id){
-  if(selected[id]) delete selected[id];
-  else selected[id]=PRODUCTS.find(p=>p.id===id);
-  updateCount();renderGrid();
-}
-function updateCount(){document.getElementById('cart-count').textContent=Object.keys(selected).length}
-function filter(cat,btn){
-  currentFilter=cat;
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');renderGrid();
-}
-function closeTooltip(e){if(e.target===document.getElementById('shipping-tooltip'))document.getElementById('shipping-tooltip').classList.remove('open')}
+function onSearch(v){searchQuery=v.trim();document.getElementById('search-clear').style.display=searchQuery?'block':'none';renderGrid();}
+function clearSearch(){document.getElementById('search-input').value='';searchQuery='';document.getElementById('search-clear').style.display='none';renderGrid();}
+function toggleInterest(id){if(selected[id])delete selected[id];else selected[id]=P.find(p=>p.id===id);updateCount();renderGrid();}
+function updateCount(){document.getElementById('cart-count').textContent=Object.keys(selected).length;}
+function filter(cat,btn){currentFilter=cat;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderGrid();}
 function openModal(){
   const items=Object.values(selected);
-  const list=document.getElementById('selected-list');
-  list.innerHTML=items.length
-    ?items.map(p=>`<div class="selected-item"><span>${p.img?'📦':p.emoji||'📦'} ${p.name} — ${p.price} MXN</span><button class="remove-btn" onclick="removeItem(${p.id})">✕</button></div>`).join('')
-    :'<div class="empty-msg">No has seleccionado ningún producto aún.</div>';
+  document.getElementById('selected-list').innerHTML=items.length?items.map(p=>`<div class="selected-item"><span>📦 ${p.name} — ${p.price} MXN</span><button class="remove-btn" onclick="removeItem(${p.id})">✕</button></div>`).join(''):'<div class="empty-msg">No has seleccionado ningún producto aún.</div>';
   document.getElementById('modal').classList.add('open');
 }
 function removeItem(id){delete selected[id];updateCount();openModal();}
-function closeModal(){document.getElementById('modal').classList.remove('open')}
-function closeOnBg(e){if(e.target===document.getElementById('modal'))closeModal()}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function closeOnBg(e){if(e.target===document.getElementById('modal'))closeModal();}
 function sendWhatsApp(){
   const name=document.getElementById('inp-name').value.trim();
   const phone=document.getElementById('inp-phone').value.trim();
   const items=Object.values(selected);
-  if(!name){alert('Por favor ingresa tu nombre');return}
-  if(!phone){alert('Por favor ingresa tu número de celular');return}
-  if(!items.length){alert('No has seleccionado ningún producto');return}
+  if(!name){alert('Por favor ingresa tu nombre');return;}
+  if(!phone){alert('Por favor ingresa tu número de celular');return;}
+  if(!items.length){alert('No has seleccionado ningún producto');return;}
   const lista=items.map(p=>`• ${p.name} (${p.price} MXN)`).join('\n');
   const msg=`Hola! 👋 Soy *${name}* y me interesan los siguientes productos de *Jany Tokyo Traveller*:\n\n${lista}\n\nMi número de contacto es: ${phone}`;
   window.open(`https://wa.me/5637619354?text=${encodeURIComponent(msg)}`,'_blank');
 }
 renderGrid();
+
+// --- Zoom de imágenes ---
+const ZOOM_MAX=2, ZOOM_MIN=1, ZOOM_DOUBLE_TAP=1.8;
+let zoomScale=1, zoomX=0, zoomY=0;
+let pinchStartDist=0, pinchStartScale=1;
+let isPanning=false, panStartX=0, panStartY=0, panOrigX=0, panOrigY=0;
+let lastTapTime=0;
+
+function openImageZoom(src){
+  const img=document.getElementById('img-zoom-img');
+  img.src=src;
+  zoomScale=1;zoomX=0;zoomY=0;
+  applyZoom();
+  document.getElementById('img-zoom-overlay').classList.add('open');
+}
+function closeImageZoom(){
+  document.getElementById('img-zoom-overlay').classList.remove('open');
+}
+function clampZoom(s){return Math.min(ZOOM_MAX,Math.max(ZOOM_MIN,s));}
+function applyZoom(){
+  const img=document.getElementById('img-zoom-img');
+  img.style.transform=`translate(${zoomX}px, ${zoomY}px) scale(${zoomScale})`;
+  img.classList.toggle('zoomed',zoomScale>1);
+}
+function resetZoomIfNeeded(){
+  if(zoomScale<=1){zoomScale=1;zoomX=0;zoomY=0;applyZoom();}
+}
+function dist(t1,t2){const dx=t1.clientX-t2.clientX,dy=t1.clientY-t2.clientY;return Math.sqrt(dx*dx+dy*dy);}
+
+(function(){
+  const overlay=document.getElementById('img-zoom-overlay');
+  const img=document.getElementById('img-zoom-img');
+
+  // Cerrar al tocar el fondo (no la imagen ni el botón cerrar)
+  overlay.addEventListener('click',e=>{
+    if(e.target===overlay)closeImageZoom();
+  });
+
+  // Zoom con rueda (escritorio)
+  img.addEventListener('wheel',e=>{
+    e.preventDefault();
+    zoomScale=clampZoom(zoomScale - e.deltaY*0.0015);
+    resetZoomIfNeeded();
+    applyZoom();
+  },{passive:false});
+
+  // Doble click / doble toque para alternar zoom
+  img.addEventListener('click',e=>{
+    const now=Date.now();
+    if(now-lastTapTime<300){
+      zoomScale = zoomScale>1 ? 1 : ZOOM_DOUBLE_TAP;
+      if(zoomScale===1){zoomX=0;zoomY=0;}
+      applyZoom();
+    }
+    lastTapTime=now;
+  });
+
+  // Pinch zoom y arrastre (táctil)
+  img.addEventListener('touchstart',e=>{
+    if(e.touches.length===2){
+      pinchStartDist=dist(e.touches[0],e.touches[1]);
+      pinchStartScale=zoomScale;
+    }else if(e.touches.length===1 && zoomScale>1){
+      isPanning=true;
+      panStartX=e.touches[0].clientX;
+      panStartY=e.touches[0].clientY;
+      panOrigX=zoomX;
+      panOrigY=zoomY;
+    }
+  },{passive:true});
+
+  img.addEventListener('touchmove',e=>{
+    if(e.touches.length===2){
+      e.preventDefault();
+      const d=dist(e.touches[0],e.touches[1]);
+      zoomScale=clampZoom(pinchStartScale*(d/pinchStartDist));
+      if(zoomScale===1){zoomX=0;zoomY=0;}
+      applyZoom();
+    }else if(isPanning && e.touches.length===1){
+      e.preventDefault();
+      zoomX=panOrigX+(e.touches[0].clientX-panStartX);
+      zoomY=panOrigY+(e.touches[0].clientY-panStartY);
+      applyZoom();
+    }
+  },{passive:false});
+
+  img.addEventListener('touchend',e=>{
+    if(e.touches.length<2)isPanning=false;
+    resetZoomIfNeeded();
+  });
+
+  // Arrastre con mouse (escritorio, cuando hay zoom)
+  img.addEventListener('mousedown',e=>{
+    if(zoomScale<=1)return;
+    isPanning=true;
+    panStartX=e.clientX;panStartY=e.clientY;
+    panOrigX=zoomX;panOrigY=zoomY;
+    img.style.cursor='grabbing';
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!isPanning)return;
+    zoomX=panOrigX+(e.clientX-panStartX);
+    zoomY=panOrigY+(e.clientY-panStartY);
+    applyZoom();
+  });
+  window.addEventListener('mouseup',()=>{
+    isPanning=false;
+    img.style.cursor=zoomScale>1?'grab':'zoom-in';
+  });
+
+  // Cerrar con Escape
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape')closeImageZoom();
+  });
+})();
 </script>
 </body>
 </html>
